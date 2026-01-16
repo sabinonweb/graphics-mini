@@ -1,6 +1,124 @@
 [
     {
-        "label": "*;",
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "StaticFiles",
+        "importPath": "fastapi.staticfiles",
+        "description": "fastapi.staticfiles",
+        "isExtraImport": true,
+        "detail": "fastapi.staticfiles",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Union",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "*",
         "importPath": "manim",
         "description": "manim",
         "isExtraImport": true,
@@ -8,12 +126,253 @@
         "documentation": {}
     },
     {
-        "label": "CircleToSquare",
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "numpy",
         "kind": 6,
-        "importPath": "main",
-        "description": "main",
-        "peekOfCode": "class CircleToSquare(Scene):\n    def construct(self):\n        circle = Circle()\n        circle.set_fill(PINK, opacity=0.5);\n        square = Square();\n        square.rotate(PI /4);\n        self.play(Create(square))\n        self.play(Transform(square, circle))\n        self.play(FadeOut(square))",
-        "detail": "main",
+        "isExtraImport": true,
+        "importPath": "numpy",
+        "description": "numpy",
+        "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "client.node_modules.flatted.python.flatted",
+        "description": "client.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "client.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "StandardLPInput",
+        "kind": 6,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "class StandardLPInput(BaseModel):\n    type: str = \"standard\"\n    objective: str\n    constraints: List[str]\nclass TransportationInput(BaseModel):\n    type: str = \"transportation\"\n    supply: List[float]\n    demand: List[float]\n    costs: List[List[float]]\nclass TSPInput(BaseModel):",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "TransportationInput",
+        "kind": 6,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "class TransportationInput(BaseModel):\n    type: str = \"transportation\"\n    supply: List[float]\n    demand: List[float]\n    costs: List[List[float]]\nclass TSPInput(BaseModel):\n    type: str = \"tsp\"\n    cities: List[str]\n    distances: List[List[float]]\n@app.post(\"/generate\")",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "TSPInput",
+        "kind": 6,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "class TSPInput(BaseModel):\n    type: str = \"tsp\"\n    cities: List[str]\n    distances: List[List[float]]\n@app.post(\"/generate\")\nasync def generate_visualization(data: dict):\n    try:\n        logger.info(f\"Received request: {data}\")\n        # Create unique ID for this request\n        uid = str(uuid.uuid4())",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "def root():\n    return {\"message\": \"LP Visualizer API is running\"}\n@app.get(\"/test\")\ndef test():\n    \"\"\"Test endpoint to verify setup\"\"\"\n    return {\n        \"manim_scene_exists\": os.path.exists(\"manim_scene.py\"),\n        \"inputs_dir_exists\": os.path.exists(\"inputs\"),\n        \"media_dir_exists\": os.path.exists(\"media\"),\n        \"current_dir\": os.getcwd(),",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "test",
+        "kind": 2,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "def test():\n    \"\"\"Test endpoint to verify setup\"\"\"\n    return {\n        \"manim_scene_exists\": os.path.exists(\"manim_scene.py\"),\n        \"inputs_dir_exists\": os.path.exists(\"inputs\"),\n        \"media_dir_exists\": os.path.exists(\"media\"),\n        \"current_dir\": os.getcwd(),\n        \"python_version\": sys.version\n    }\nif __name__ == \"__main__\":",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\napp = FastAPI()\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "server.main",
+        "description": "server.main",
+        "peekOfCode": "app = FastAPI()\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\nos.makedirs(\"inputs\", exist_ok=True)",
+        "detail": "server.main",
+        "documentation": {}
+    },
+    {
+        "label": "LinearProgrammingFull",
+        "kind": 6,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "class LinearProgrammingFull(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        objective = input_data.get('objective', '3x1 + 2x2')\n        constraints = input_data.get('constraints', ['2x1 + x2 <= 8', 'x1 + 2x2 <= 10'])\n        # Title\n        title = Text(\"Linear Programming Problem\", font_size=36)\n        title.to_edge(UP)\n        self.play(Write(title))\n        self.wait(1)",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "TransportationProblem",
+        "kind": 6,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "class TransportationProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        supply = input_data.get('supply', [20, 30, 25])\n        demand = input_data.get('demand', [15, 25, 35])\n        costs = input_data.get('costs', [[8, 6, 10], [9, 12, 13], [14, 9, 16]])\n        # Title\n        title = Text(\"Transportation Problem\", font_size=40)\n        self.play(Write(title))\n        self.wait(1)",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "TravellingSalesmanProblem",
+        "kind": 6,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "class TravellingSalesmanProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        cities = input_data.get('cities', ['A', 'B', 'C', 'D'])\n        distances = input_data.get('distances', [\n            [0, 10, 15, 20],\n            [10, 0, 35, 25],\n            [15, 35, 0, 30],\n            [20, 25, 30, 0]\n        ])",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "input_file",
+        "kind": 5,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "input_file = None\nfor i, arg in enumerate(sys.argv):\n    if arg == \"--input_file\" and i + 1 < len(sys.argv):\n        input_file = sys.argv[i + 1]\n        break\ninput_data = {}\nif input_file and os.path.exists(input_file):\n    try:\n        with open(input_file, 'r') as f:\n            input_data = json.load(f)",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "input_data",
+        "kind": 5,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "input_data = {}\nif input_file and os.path.exists(input_file):\n    try:\n        with open(input_file, 'r') as f:\n            input_data = json.load(f)\n        print(f\"Loaded input data from {input_file}\")\n        print(f\"Data: {input_data}\")\n    except Exception as e:\n        print(f\"Error loading input file: {e}\")\nelse:",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "SquareAndCircle",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class SquareAndCircle(Scene):\n    def construct(self):\n        circle = Circle()\n        circle.set_fill(PINK, opacity=0.5)\n        square = Square()\n        square.set_fill(BLUE, opacity=0.5)\n        square.next_to(circle, UP, buff=0.5)\n        self.play(Create(circle), Create(square))\nclass DifferentRotations(Scene):\n    def construct(self):",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "DifferentRotations",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class DifferentRotations(Scene):\n    def construct(self):\n        left_square = Square(color=BLUE, fill_opacity=0.7).shift(2 * LEFT)\n        right_square = Square(color=GREEN, fill_opacity=0.7).shift(2 * RIGHT)\n        self.play(left_square.animate.rotate(PI), Rotate(right_square, angle=PI), run_time=2)\n        self.wait\nclass Shapes(Scene):\n    def construct(self):\n        circle = Circle()\n        square = Square()",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "Shapes",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class Shapes(Scene):\n    def construct(self):\n        circle = Circle()\n        square = Square()\n        triangle = Triangle()\n        circle.shift(LEFT)\n        square.shift(UP)\n        triangle.shift(RIGHT)\n        self.add(circle, square, triangle)\n        self.wait(1)",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "MObjectPlacement",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class MObjectPlacement(Scene):\n    def construct(self):\n        circle = Circle()\n        square = Square()\n        triangle = Triangle()\n        circle.move_to(LEFT * 2)\n        square.next_to(circle, LEFT)\n        triangle.align_to(circle, LEFT)\n        self.add(circle, square, triangle)\n        self.wait(1)",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "MObjectStyling",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class MObjectStyling(Scene):\n    def construct(self):\n        circle = Circle().shift(LEFT)\n        square = Square().shift(UP)\n        triangle = Triangle().shift(RIGHT)\n        circle.set_stroke(color=GREEN, width=20)\n        square.set_fill(YELLOW, opacity=1.0)\n        triangle.set_fill(PINK, opacity=0.5)\n        self.add(circle, square, triangle)\n        self.wait(1)",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "SomeAnimations",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class SomeAnimations(Scene):\n    def construct(self):\n        square = Square()\n        self.play(FadeIn(square))\n        self.play(Rotate(square, PI / 4))\n        self.play(FadeOut(square))\n        self.wait()\nclass AnimateMore(Scene):\n    def construct(self):\n        square = Square().set_fill(RED, opacity=1.0)",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "AnimateMore",
+        "kind": 6,
+        "importPath": "server.scene",
+        "description": "server.scene",
+        "peekOfCode": "class AnimateMore(Scene):\n    def construct(self):\n        square = Square().set_fill(RED, opacity=1.0)\n        self.add(square)\n        self.play(square.animate.set_fill(WHITE))\n        self.play(square.animate.shift(UP).rotate(PI / 3))\n        self.wait(1)",
+        "detail": "server.scene",
+        "documentation": {}
+    },
+    {
+        "label": "LinearProgrammingViz",
+        "kind": 6,
+        "importPath": "server.test",
+        "description": "server.test",
+        "peekOfCode": "class LinearProgrammingViz(Scene):\n    def construct(self):\n        # Title\n        title = Text(\"Linear Programming Visualization\", font_size=40)\n        subtitle = Text(\"Maximizing an Objective Function\", font_size=24)\n        subtitle.next_to(title, DOWN)\n        self.play(Write(title))\n        self.play(FadeIn(subtitle))\n        self.wait(1)\n        self.play(FadeOut(title), FadeOut(subtitle))",
+        "detail": "server.test",
+        "documentation": {}
+    },
+    {
+        "label": "DynamicConstraints",
+        "kind": 6,
+        "importPath": "server.test",
+        "description": "server.test",
+        "peekOfCode": "class DynamicConstraints(Scene):\n    \"\"\"Shows how changing constraints affects the feasible region\"\"\"\n    def construct(self):\n        title = Text(\"Dynamic Constraint Changes\", font_size=40)\n        self.play(Write(title))\n        self.wait(1)\n        self.play(title.animate.to_edge(UP).scale(0.7))\n        # Create axes\n        axes = Axes(\n            x_range=[0, 10, 1],",
+        "detail": "server.test",
         "documentation": {}
     }
 ]

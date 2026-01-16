@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:/Users/sabinonweb/Documents/graphics-or/media/videos/scene/480p15/partial_movie_files/AnimateMore/1584795214_1543820631_4100903741.mp4'
+file 'file:/Users/sabinonweb/Documents/graphics-or/media/videos/scene/480p15/partial_movie_files/AnimateMore/4072820271_973811996_4100903741.mp4'
+file 'file:/Users/sabinonweb/Documents/graphics-or/media/videos/scene/480p15/partial_movie_files/AnimateMore/4072820271_4217992463_77988789.mp4'
