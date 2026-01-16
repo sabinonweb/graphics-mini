@@ -1,0 +1,19 @@
+[
+    {
+        "label": "*;",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "CircleToSquare",
+        "kind": 6,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "class CircleToSquare(Scene):\n    def construct(self):\n        circle = Circle()\n        circle.set_fill(PINK, opacity=0.5);\n        square = Square();\n        square.rotate(PI /4);\n        self.play(Create(square))\n        self.play(Transform(square, circle))\n        self.play(FadeOut(square))",
+        "detail": "main",
+        "documentation": {}
+    }
+]
