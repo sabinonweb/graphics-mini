@@ -9,6 +9,24 @@
         "documentation": {}
     },
     {
+        "label": "configparser",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "configparser",
+        "description": "configparser",
+        "detail": "configparser",
+        "documentation": {}
+    },
+    {
+        "label": "fastapi",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
         "label": "FastAPI",
         "importPath": "fastapi",
         "description": "fastapi",
@@ -25,51 +43,12 @@
         "documentation": {}
     },
     {
-        "label": "CORSMiddleware",
-        "importPath": "fastapi.middleware.cors",
-        "description": "fastapi.middleware.cors",
+        "label": "os",
+        "kind": 6,
         "isExtraImport": true,
-        "detail": "fastapi.middleware.cors",
-        "documentation": {}
-    },
-    {
-        "label": "StaticFiles",
-        "importPath": "fastapi.staticfiles",
-        "description": "fastapi.staticfiles",
-        "isExtraImport": true,
-        "detail": "fastapi.staticfiles",
-        "documentation": {}
-    },
-    {
-        "label": "BaseModel",
-        "importPath": "pydantic",
-        "description": "pydantic",
-        "isExtraImport": true,
-        "detail": "pydantic",
-        "documentation": {}
-    },
-    {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
-        "documentation": {}
-    },
-    {
-        "label": "Union",
-        "importPath": "typing",
-        "description": "typing",
-        "isExtraImport": true,
-        "detail": "typing",
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
         "documentation": {}
     },
     {
@@ -91,12 +70,76 @@
         "documentation": {}
     },
     {
-        "label": "os",
+        "label": "logging",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "os",
-        "description": "os",
-        "detail": "os",
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "CORSMiddleware",
+        "importPath": "fastapi.middleware.cors",
+        "description": "fastapi.middleware.cors",
+        "isExtraImport": true,
+        "detail": "fastapi.middleware.cors",
+        "documentation": {}
+    },
+    {
+        "label": "StaticFiles",
+        "importPath": "fastapi.staticfiles",
+        "description": "fastapi.staticfiles",
+        "isExtraImport": true,
+        "detail": "fastapi.staticfiles",
+        "documentation": {}
+    },
+    {
+        "label": "StaticFiles",
+        "importPath": "fastapi.staticfiles",
+        "description": "fastapi.staticfiles",
+        "isExtraImport": true,
+        "detail": "fastapi.staticfiles",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "manim",
+        "description": "manim",
+        "isExtraImport": true,
+        "detail": "manim",
         "documentation": {}
     },
     {
@@ -109,36 +152,12 @@
         "documentation": {}
     },
     {
-        "label": "logging",
+        "label": "re",
         "kind": 6,
         "isExtraImport": true,
-        "importPath": "logging",
-        "description": "logging",
-        "detail": "logging",
-        "documentation": {}
-    },
-    {
-        "label": "*",
-        "importPath": "manim",
-        "description": "manim",
-        "isExtraImport": true,
-        "detail": "manim",
-        "documentation": {}
-    },
-    {
-        "label": "*",
-        "importPath": "manim",
-        "description": "manim",
-        "isExtraImport": true,
-        "detail": "manim",
-        "documentation": {}
-    },
-    {
-        "label": "*",
-        "importPath": "manim",
-        "description": "manim",
-        "isExtraImport": true,
-        "detail": "manim",
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
         "documentation": {}
     },
     {
@@ -148,6 +167,54 @@
         "importPath": "numpy",
         "description": "numpy",
         "detail": "numpy",
+        "documentation": {}
+    },
+    {
+        "label": "linprog",
+        "importPath": "scipy.optimize",
+        "description": "scipy.optimize",
+        "isExtraImport": true,
+        "detail": "scipy.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "linear_sum_assignment",
+        "importPath": "scipy.optimize",
+        "description": "scipy.optimize",
+        "isExtraImport": true,
+        "detail": "scipy.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "linprog",
+        "importPath": "scipy.optimize",
+        "description": "scipy.optimize",
+        "isExtraImport": true,
+        "detail": "scipy.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "linear_sum_assignment",
+        "importPath": "scipy.optimize",
+        "description": "scipy.optimize",
+        "isExtraImport": true,
+        "detail": "scipy.optimize",
+        "documentation": {}
+    },
+    {
+        "label": "permutations",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
+        "documentation": {}
+    },
+    {
+        "label": "permutations",
+        "importPath": "itertools",
+        "description": "itertools",
+        "isExtraImport": true,
+        "detail": "itertools",
         "documentation": {}
     },
     {
@@ -187,56 +254,11 @@
         "documentation": {}
     },
     {
-        "label": "StandardLPInput",
-        "kind": 6,
-        "importPath": "server.main",
-        "description": "server.main",
-        "peekOfCode": "class StandardLPInput(BaseModel):\n    type: str = \"standard\"\n    objective: str\n    constraints: List[str]\nclass TransportationInput(BaseModel):\n    type: str = \"transportation\"\n    supply: List[float]\n    demand: List[float]\n    costs: List[List[float]]\nclass TSPInput(BaseModel):",
-        "detail": "server.main",
-        "documentation": {}
-    },
-    {
-        "label": "TransportationInput",
-        "kind": 6,
-        "importPath": "server.main",
-        "description": "server.main",
-        "peekOfCode": "class TransportationInput(BaseModel):\n    type: str = \"transportation\"\n    supply: List[float]\n    demand: List[float]\n    costs: List[List[float]]\nclass TSPInput(BaseModel):\n    type: str = \"tsp\"\n    cities: List[str]\n    distances: List[List[float]]\n@app.post(\"/generate\")",
-        "detail": "server.main",
-        "documentation": {}
-    },
-    {
-        "label": "TSPInput",
-        "kind": 6,
-        "importPath": "server.main",
-        "description": "server.main",
-        "peekOfCode": "class TSPInput(BaseModel):\n    type: str = \"tsp\"\n    cities: List[str]\n    distances: List[List[float]]\n@app.post(\"/generate\")\nasync def generate_visualization(data: dict):\n    try:\n        logger.info(f\"Received request: {data}\")\n        # Create unique ID for this request\n        uid = str(uuid.uuid4())",
-        "detail": "server.main",
-        "documentation": {}
-    },
-    {
-        "label": "root",
-        "kind": 2,
-        "importPath": "server.main",
-        "description": "server.main",
-        "peekOfCode": "def root():\n    return {\"message\": \"LP Visualizer API is running\"}\n@app.get(\"/test\")\ndef test():\n    \"\"\"Test endpoint to verify setup\"\"\"\n    return {\n        \"manim_scene_exists\": os.path.exists(\"manim_scene.py\"),\n        \"inputs_dir_exists\": os.path.exists(\"inputs\"),\n        \"media_dir_exists\": os.path.exists(\"media\"),\n        \"current_dir\": os.getcwd(),",
-        "detail": "server.main",
-        "documentation": {}
-    },
-    {
-        "label": "test",
-        "kind": 2,
-        "importPath": "server.main",
-        "description": "server.main",
-        "peekOfCode": "def test():\n    \"\"\"Test endpoint to verify setup\"\"\"\n    return {\n        \"manim_scene_exists\": os.path.exists(\"manim_scene.py\"),\n        \"inputs_dir_exists\": os.path.exists(\"inputs\"),\n        \"media_dir_exists\": os.path.exists(\"media\"),\n        \"current_dir\": os.getcwd(),\n        \"python_version\": sys.version\n    }\nif __name__ == \"__main__\":",
-        "detail": "server.main",
-        "documentation": {}
-    },
-    {
         "label": "logger",
         "kind": 5,
         "importPath": "server.main",
         "description": "server.main",
-        "peekOfCode": "logger = logging.getLogger(__name__)\napp = FastAPI()\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
+        "peekOfCode": "logger = logging.getLogger(__name__)\napp = fastapi.FastAPI()\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"]\n)\nos.makedirs(\"input\", exist_ok=True)",
         "detail": "server.main",
         "documentation": {}
     },
@@ -245,7 +267,7 @@
         "kind": 5,
         "importPath": "server.main",
         "description": "server.main",
-        "peekOfCode": "app = FastAPI()\n# CORS middleware\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\nos.makedirs(\"inputs\", exist_ok=True)",
+        "peekOfCode": "app = fastapi.FastAPI()\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"]\n)\nos.makedirs(\"input\", exist_ok=True)\nos.makedirs(\"media\", exist_ok=True)",
         "detail": "server.main",
         "documentation": {}
     },
@@ -254,7 +276,7 @@
         "kind": 6,
         "importPath": "server.node",
         "description": "server.node",
-        "peekOfCode": "class LinearProgrammingFull(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        objective = input_data.get('objective', '3x1 + 2x2')\n        constraints = input_data.get('constraints', ['2x1 + x2 <= 8', 'x1 + 2x2 <= 10'])\n        # Title\n        title = Text(\"Linear Programming Problem\", font_size=36)\n        title.to_edge(UP)\n        self.play(Write(title))\n        self.wait(1)",
+        "peekOfCode": "class LinearProgrammingFull(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        objective = input_data.get('objective', '3x1 + 2x2')\n        constraints = input_data.get('constraints', ['2x1 + x2 <= 8', 'x1 + 2x2 <= 10'])\n        # Solve the LP\n        feasible_points, optimal_point, optimal_value, obj_coeffs, parsed_constraints = solve_lp(objective, constraints)\n        # Title\n        title = Text(\"Linear Programming Problem\", font_size=36)\n        title.to_edge(UP)",
         "detail": "server.node",
         "documentation": {}
     },
@@ -263,7 +285,7 @@
         "kind": 6,
         "importPath": "server.node",
         "description": "server.node",
-        "peekOfCode": "class TransportationProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        supply = input_data.get('supply', [20, 30, 25])\n        demand = input_data.get('demand', [15, 25, 35])\n        costs = input_data.get('costs', [[8, 6, 10], [9, 12, 13], [14, 9, 16]])\n        # Title\n        title = Text(\"Transportation Problem\", font_size=40)\n        self.play(Write(title))\n        self.wait(1)",
+        "peekOfCode": "class TransportationProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        supply = input_data.get('supply', [20, 30, 25])\n        demand = input_data.get('demand', [15, 25, 35])\n        costs = input_data.get('costs', [[8, 6, 10], [9, 12, 13], [14, 9, 16]])\n        # Solve the transportation problem\n        allocations, total_cost = solve_transportation(supply, demand, costs)\n        # Title\n        title = Text(\"Transportation Problem\", font_size=40)",
         "detail": "server.node",
         "documentation": {}
     },
@@ -277,11 +299,56 @@
         "documentation": {}
     },
     {
-        "label": "input_file",
+        "label": "parse_objective",
+        "kind": 2,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "def parse_objective(obj_str):\n    \"\"\"Parse objective like '3x1 + 2x2' -> coefficients [3, 2]\"\"\"\n    coeffs = [0.0, 0.0]  # Always start with 2 coefficients for 2D visualization\n    terms = re.findall(r'([+-]?\\s*\\d*\\.?\\d*)\\s*x(\\d+)', obj_str)\n    for coef, var_num in terms:\n        coef = coef.replace(' ', '')\n        if coef in ['', '+']:\n            coef = 1.0\n        elif coef == '-':\n            coef = -1.0",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "parse_constraint",
+        "kind": 2,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "def parse_constraint(constraint_str):\n    \"\"\"Parse constraint like '2x1 + x2 <= 8' -> (coeffs, rhs, type)\"\"\"\n    # Find inequality\n    if '<=' in constraint_str:\n        lhs, rhs = constraint_str.split('<=')\n        ineq_type = '<='\n    elif '>=' in constraint_str:\n        lhs, rhs = constraint_str.split('>=')\n        ineq_type = '>='\n    elif '=' in constraint_str:",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_lp",
+        "kind": 2,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "def solve_lp(objective, constraints):\n    \"\"\"Solve LP using scipy and return corner points and optimal solution\"\"\"\n    obj_coeffs = parse_objective(objective)\n    parsed_constraints = [parse_constraint(c) for c in constraints]\n    # For graphical solution, find intersection points\n    points = [(0, 0)]\n    # Add axis intersections\n    for coeffs, rhs, _ in parsed_constraints:\n        if coeffs[0] != 0:\n            points.append((rhs/coeffs[0], 0))",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_transportation",
+        "kind": 2,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "def solve_transportation(supply, demand, costs):\n    \"\"\"Solve transportation problem using Vogel's Approximation Method\"\"\"\n    m, n = len(supply), len(demand)\n    supply_left = supply.copy()\n    demand_left = demand.copy()\n    allocation = [[0 for _ in range(n)] for _ in range(m)]\n    while sum(supply_left) > 0 and sum(demand_left) > 0:\n        # Calculate penalties for rows\n        row_penalties = []\n        for i in range(m):",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_tsp",
+        "kind": 2,
+        "importPath": "server.node",
+        "description": "server.node",
+        "peekOfCode": "def solve_tsp(distances):\n    \"\"\"Solve TSP using brute force for small instances or greedy for larger ones\"\"\"\n    n = len(distances)\n    # For small instances (n <= 10), use brute force\n    if n <= 10:\n        min_distance = float('inf')\n        best_tour = None\n        # Try all permutations\n        for perm in permutations(range(1, n)):\n            tour = [0] + list(perm) + [0]",
+        "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "config_file",
         "kind": 5,
         "importPath": "server.node",
         "description": "server.node",
-        "peekOfCode": "input_file = None\nfor i, arg in enumerate(sys.argv):\n    if arg == \"--input_file\" and i + 1 < len(sys.argv):\n        input_file = sys.argv[i + 1]\n        break\ninput_data = {}\nif input_file and os.path.exists(input_file):\n    try:\n        with open(input_file, 'r') as f:\n            input_data = json.load(f)",
+        "peekOfCode": "config_file = None\nfor i, arg in enumerate(sys.argv):\n    if arg == \"--config_file\" and i + 1 < len(sys.argv):\n        config_file = sys.argv[i + 1]\n        break\n# Load configuration\ninput_data = {}\nif config_file and os.path.exists(config_file):\n    try:\n        config = configparser.ConfigParser()",
         "detail": "server.node",
         "documentation": {}
     },
@@ -290,8 +357,125 @@
         "kind": 5,
         "importPath": "server.node",
         "description": "server.node",
-        "peekOfCode": "input_data = {}\nif input_file and os.path.exists(input_file):\n    try:\n        with open(input_file, 'r') as f:\n            input_data = json.load(f)\n        print(f\"Loaded input data from {input_file}\")\n        print(f\"Data: {input_data}\")\n    except Exception as e:\n        print(f\"Error loading input file: {e}\")\nelse:",
+        "peekOfCode": "input_data = {}\nif config_file and os.path.exists(config_file):\n    try:\n        config = configparser.ConfigParser()\n        config.read(config_file)\n        if 'INPUT' in config:\n            problem_type = config['INPUT'].get('type', 'standard')\n            if problem_type == 'standard':\n                input_data['objective'] = config['INPUT'].get('objective', '3x1 + 2x2')\n                constraints_str = config['INPUT'].get('constraints', '2x1 + x2 <= 8;x1 + 2x2 <= 10')",
         "detail": "server.node",
+        "documentation": {}
+    },
+    {
+        "label": "root",
+        "kind": 2,
+        "importPath": "server.not_main",
+        "description": "server.not_main",
+        "peekOfCode": "def root():\n    return {\"message\": \"LP Visualizer API running\"}",
+        "detail": "server.not_main",
+        "documentation": {}
+    },
+    {
+        "label": "logger",
+        "kind": 5,
+        "importPath": "server.not_main",
+        "description": "server.not_main",
+        "peekOfCode": "logger = logging.getLogger(__name__)\napp = FastAPI()\n# ---------------- CORS ----------------\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
+        "detail": "server.not_main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "server.not_main",
+        "description": "server.not_main",
+        "peekOfCode": "app = FastAPI()\n# ---------------- CORS ----------------\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"*\"],\n    allow_credentials=True,\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)\nos.makedirs(\"inputs\", exist_ok=True)",
+        "detail": "server.not_main",
+        "documentation": {}
+    },
+    {
+        "label": "LinearProgrammingFull",
+        "kind": 6,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "class LinearProgrammingFull(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        objective = input_data.get('objective', '3x1 + 2x2')\n        constraints = input_data.get('constraints', ['2x1 + x2 <= 8', 'x1 + 2x2 <= 10'])\n        # Solve the LP\n        feasible_points, optimal_point, optimal_value, obj_coeffs, parsed_constraints = solve_lp(objective, constraints)\n        # Title\n        title = Text(\"Linear Programming Problem\", font_size=36)\n        title.to_edge(UP)",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "TransportationProblem",
+        "kind": 6,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "class TransportationProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        supply = input_data.get('supply', [20, 30, 25])\n        demand = input_data.get('demand', [15, 25, 35])\n        costs = input_data.get('costs', [[8, 6, 10], [9, 12, 13], [14, 9, 16]])\n        # Solve the transportation problem\n        allocations, total_cost = solve_transportation(supply, demand, costs)\n        # Title\n        title = Text(\"Transportation Problem\", font_size=40)",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "TravellingSalesmanProblem",
+        "kind": 6,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "class TravellingSalesmanProblem(Scene):\n    def construct(self):\n        # Get data from input or use defaults\n        cities = input_data.get('cities', ['A', 'B', 'C', 'D'])\n        distances = input_data.get('distances', [\n            [0, 10, 15, 20],\n            [10, 0, 35, 25],\n            [15, 35, 0, 30],\n            [20, 25, 30, 0]\n        ])",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "parse_objective",
+        "kind": 2,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "def parse_objective(obj_str):\n    \"\"\"Parse objective like '3x1 + 2x2' -> coefficients [3, 2]\"\"\"\n    coeffs = []\n    terms = re.findall(r'([+-]?\\s*\\d*\\.?\\d*)\\s*x(\\d+)', obj_str)\n    max_var = max(int(t[1]) for t in terms) if terms else 2\n    coeffs = [0.0] * max_var\n    for coef, var_num in terms:\n        coef = coef.replace(' ', '')\n        if coef in ['', '+']:\n            coef = 1.0",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "parse_constraint",
+        "kind": 2,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "def parse_constraint(constraint_str):\n    \"\"\"Parse constraint like '2x1 + x2 <= 8' -> (coeffs, rhs, type)\"\"\"\n    # Find inequality\n    if '<=' in constraint_str:\n        lhs, rhs = constraint_str.split('<=')\n        ineq_type = '<='\n    elif '>=' in constraint_str:\n        lhs, rhs = constraint_str.split('>=')\n        ineq_type = '>='\n    elif '=' in constraint_str:",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_lp",
+        "kind": 2,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "def solve_lp(objective, constraints):\n    \"\"\"Solve LP using scipy and return corner points and optimal solution\"\"\"\n    obj_coeffs = parse_objective(objective)\n    parsed_constraints = [parse_constraint(c) for c in constraints]\n    # For graphical solution, find intersection points\n    points = [(0, 0)]\n    # Add axis intersections\n    for coeffs, rhs, _ in parsed_constraints:\n        if coeffs[0] != 0:\n            points.append((rhs/coeffs[0], 0))",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_transportation",
+        "kind": 2,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "def solve_transportation(supply, demand, costs):\n    \"\"\"Solve transportation problem using Vogel's Approximation Method\"\"\"\n    m, n = len(supply), len(demand)\n    supply_left = supply.copy()\n    demand_left = demand.copy()\n    allocation = [[0 for _ in range(n)] for _ in range(m)]\n    while sum(supply_left) > 0 and sum(demand_left) > 0:\n        # Calculate penalties for rows\n        row_penalties = []\n        for i in range(m):",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "solve_tsp",
+        "kind": 2,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "def solve_tsp(distances):\n    \"\"\"Solve TSP using brute force for small instances or greedy for larger ones\"\"\"\n    n = len(distances)\n    # For small instances (n <= 10), use brute force\n    if n <= 10:\n        min_distance = float('inf')\n        best_tour = None\n        # Try all permutations\n        for perm in permutations(range(1, n)):\n            tour = [0] + list(perm) + [0]",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "config_file",
+        "kind": 5,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "config_file = None\nfor i, arg in enumerate(sys.argv):\n    if arg == \"--config_file\" and i + 1 < len(sys.argv):\n        config_file = sys.argv[i + 1]\n        break\n# Load configuration\ninput_data = {}\nif config_file and os.path.exists(config_file):\n    try:\n        config = configparser.ConfigParser()",
+        "detail": "server.not_node",
+        "documentation": {}
+    },
+    {
+        "label": "input_data",
+        "kind": 5,
+        "importPath": "server.not_node",
+        "description": "server.not_node",
+        "peekOfCode": "input_data = {}\nif config_file and os.path.exists(config_file):\n    try:\n        config = configparser.ConfigParser()\n        config.read(config_file)\n        if 'INPUT' in config:\n            problem_type = config['INPUT'].get('type', 'standard')\n            if problem_type == 'standard':\n                input_data['objective'] = config['INPUT'].get('objective', '3x1 + 2x2')\n                constraints_str = config['INPUT'].get('constraints', '2x1 + x2 <= 8;x1 + 2x2 <= 10')",
+        "detail": "server.not_node",
         "documentation": {}
     },
     {

@@ -1,26 +1,296 @@
 from manim import *
-import json
+import configparser
 import sys
 import os
+import re
+import numpy as np
+from scipy.optimize import linprog, linear_sum_assignment
+from itertools import permutations
 
-# Parse command line arguments for input file
-input_file = None
+# Parse command line arguments for config file
+config_file = None
 for i, arg in enumerate(sys.argv):
-    if arg == "--input_file" and i + 1 < len(sys.argv):
-        input_file = sys.argv[i + 1]
+    if arg == "--config_file" and i + 1 < len(sys.argv):
+        config_file = sys.argv[i + 1]
         break
 
+# Load configuration
 input_data = {}
-if input_file and os.path.exists(input_file):
+if config_file and os.path.exists(config_file):
     try:
-        with open(input_file, 'r') as f:
-            input_data = json.load(f)
-        print(f"Loaded input data from {input_file}")
+        config = configparser.ConfigParser()
+        config.read(config_file)
+        
+        if 'INPUT' in config:
+            problem_type = config['INPUT'].get('type', 'standard')
+            
+            if problem_type == 'standard':
+                input_data['objective'] = config['INPUT'].get('objective', '3x1 + 2x2')
+                constraints_str = config['INPUT'].get('constraints', '2x1 + x2 <= 8;x1 + 2x2 <= 10')
+                input_data['constraints'] = constraints_str.split(';')
+            
+            elif problem_type == 'transportation':
+                supply_str = config['INPUT'].get('supply', '20,30,25')
+                demand_str = config['INPUT'].get('demand', '15,25,35')
+                costs_str = config['INPUT'].get('costs', '8,6,10;9,12,13;14,9,16')
+                
+                input_data['supply'] = list(map(int, supply_str.split(',')))
+                input_data['demand'] = list(map(int, demand_str.split(',')))
+                input_data['costs'] = [list(map(int, row.split(','))) for row in costs_str.split(';')]
+            
+            elif problem_type == 'tsp':
+                cities_str = config['INPUT'].get('cities', 'A,B,C,D')
+                distances_str = config['INPUT'].get('distances', '0,10,15,20;10,0,35,25;15,35,0,30;20,25,30,0')
+                
+                input_data['cities'] = cities_str.split(',')
+                input_data['distances'] = [list(map(int, row.split(','))) for row in distances_str.split(';')]
+        
+        print(f"Loaded config data from {config_file}")
         print(f"Data: {input_data}")
     except Exception as e:
-        print(f"Error loading input file: {e}")
+        print(f"Error loading config file: {e}")
 else:
-    print(f"No input file provided or file not found: {input_file}")
+    print(f"No config file provided or file not found: {config_file}")
+
+
+def parse_objective(obj_str):
+    """Parse objective like '3x1 + 2x2' -> coefficients [3, 2]"""
+    coeffs = [0.0, 0.0]  # Always start with 2 coefficients for 2D visualization
+    terms = re.findall(r'([+-]?\s*\d*\.?\d*)\s*x(\d+)', obj_str)
+    
+    for coef, var_num in terms:
+        coef = coef.replace(' ', '')
+        if coef in ['', '+']:
+            coef = 1.0
+        elif coef == '-':
+            coef = -1.0
+        else:
+            coef = float(coef)
+        
+        var_idx = int(var_num) - 1
+        # Extend if needed
+        while len(coeffs) <= var_idx:
+            coeffs.append(0.0)
+        coeffs[var_idx] = coef
+    
+    return coeffs[:2]  # Return only first 2 for 2D visualization
+
+
+def parse_constraint(constraint_str):
+    """Parse constraint like '2x1 + x2 <= 8' -> (coeffs, rhs, type)"""
+    # Find inequality
+    if '<=' in constraint_str:
+        lhs, rhs = constraint_str.split('<=')
+        ineq_type = '<='
+    elif '>=' in constraint_str:
+        lhs, rhs = constraint_str.split('>=')
+        ineq_type = '>='
+    elif '=' in constraint_str:
+        lhs, rhs = constraint_str.split('=')
+        ineq_type = '='
+    else:
+        return None
+    
+    # Parse LHS
+    terms = re.findall(r'([+-]?\s*\d*\.?\d*)\s*x(\d+)', lhs)
+    
+    # Always create coefficients for at least 2 variables (for 2D visualization)
+    coeffs = [0.0, 0.0]
+    
+    for coef, var_num in terms:
+        coef = coef.replace(' ', '')
+        if coef in ['', '+']:
+            coef = 1.0
+        elif coef == '-':
+            coef = -1.0
+        else:
+            coef = float(coef)
+        
+        var_idx = int(var_num) - 1
+        # Extend coeffs list if needed
+        while len(coeffs) <= var_idx:
+            coeffs.append(0.0)
+        coeffs[var_idx] = coef
+    
+    return (coeffs[:2], float(rhs.strip()), ineq_type)  # Return only first 2 coeffs for 2D
+
+
+def solve_lp(objective, constraints):
+    """Solve LP using scipy and return corner points and optimal solution"""
+    obj_coeffs = parse_objective(objective)
+    parsed_constraints = [parse_constraint(c) for c in constraints]
+    
+    # For graphical solution, find intersection points
+    points = [(0, 0)]
+    
+    # Add axis intersections
+    for coeffs, rhs, _ in parsed_constraints:
+        if coeffs[0] != 0:
+            points.append((rhs/coeffs[0], 0))
+        if coeffs[1] != 0:
+            points.append((0, rhs/coeffs[1]))
+    
+    # Find constraint intersections (for 2 variables)
+    for i in range(len(parsed_constraints)):
+        for j in range(i+1, len(parsed_constraints)):
+            c1, r1, _ = parsed_constraints[i]
+            c2, r2, _ = parsed_constraints[j]
+            
+            # Solve system: c1[0]*x + c1[1]*y = r1, c2[0]*x + c2[1]*y = r2
+            det = c1[0]*c2[1] - c1[1]*c2[0]
+            if abs(det) > 1e-10:
+                x = (r1*c2[1] - r2*c1[1]) / det
+                y = (c1[0]*r2 - c2[0]*r1) / det
+                if x >= -0.01 and y >= -0.01:  # Feasible region
+                    points.append((max(0, x), max(0, y)))
+    
+    # Filter feasible points
+    feasible_points = []
+    for x, y in points:
+        is_feasible = True
+        for coeffs, rhs, ineq in parsed_constraints:
+            val = coeffs[0]*x + coeffs[1]*y
+            if ineq == '<=' and val > rhs + 0.01:
+                is_feasible = False
+            elif ineq == '>=' and val < rhs - 0.01:
+                is_feasible = False
+        if is_feasible:
+            feasible_points.append((round(x, 2), round(y, 2)))
+    
+    # Remove duplicates
+    feasible_points = list(set(feasible_points))
+    
+    # Find optimal
+    optimal_point = None
+    optimal_value = float('-inf')
+    for x, y in feasible_points:
+        z = obj_coeffs[0]*x + obj_coeffs[1]*y
+        if z > optimal_value:
+            optimal_value = z
+            optimal_point = (x, y)
+    
+    return feasible_points, optimal_point, optimal_value, obj_coeffs, parsed_constraints
+
+
+def solve_transportation(supply, demand, costs):
+    """Solve transportation problem using Vogel's Approximation Method"""
+    m, n = len(supply), len(demand)
+    supply_left = supply.copy()
+    demand_left = demand.copy()
+    allocation = [[0 for _ in range(n)] for _ in range(m)]
+    
+    while sum(supply_left) > 0 and sum(demand_left) > 0:
+        # Calculate penalties for rows
+        row_penalties = []
+        for i in range(m):
+            if supply_left[i] > 0:
+                available = [costs[i][j] for j in range(n) if demand_left[j] > 0]
+                if len(available) >= 2:
+                    available.sort()
+                    row_penalties.append((available[1] - available[0], i, 'row'))
+                elif len(available) == 1:
+                    row_penalties.append((0, i, 'row'))
+        
+        # Calculate penalties for columns
+        col_penalties = []
+        for j in range(n):
+            if demand_left[j] > 0:
+                available = [costs[i][j] for i in range(m) if supply_left[i] > 0]
+                if len(available) >= 2:
+                    available.sort()
+                    col_penalties.append((available[1] - available[0], j, 'col'))
+                elif len(available) == 1:
+                    col_penalties.append((0, j, 'col'))
+        
+        if not row_penalties and not col_penalties:
+            break
+        
+        # Choose maximum penalty
+        all_penalties = row_penalties + col_penalties
+        max_penalty = max(all_penalties, key=lambda x: x[0])
+        
+        if max_penalty[2] == 'row':
+            i = max_penalty[1]
+            # Find minimum cost in this row
+            min_cost = float('inf')
+            best_j = -1
+            for j in range(n):
+                if demand_left[j] > 0 and costs[i][j] < min_cost:
+                    min_cost = costs[i][j]
+                    best_j = j
+            j = best_j
+        else:
+            j = max_penalty[1]
+            # Find minimum cost in this column
+            min_cost = float('inf')
+            best_i = -1
+            for i in range(m):
+                if supply_left[i] > 0 and costs[i][j] < min_cost:
+                    min_cost = costs[i][j]
+                    best_i = i
+            i = best_i
+        
+        # Allocate
+        amount = min(supply_left[i], demand_left[j])
+        allocation[i][j] = amount
+        supply_left[i] -= amount
+        demand_left[j] -= amount
+    
+    # Calculate total cost
+    total_cost = sum(allocation[i][j] * costs[i][j] for i in range(m) for j in range(n))
+    
+    # Create allocation list
+    allocations = []
+    for i in range(m):
+        for j in range(n):
+            if allocation[i][j] > 0:
+                allocations.append((i, j, allocation[i][j]))
+    
+    return allocations, total_cost
+
+
+def solve_tsp(distances):
+    """Solve TSP using brute force for small instances or greedy for larger ones"""
+    n = len(distances)
+    
+    # For small instances (n <= 10), use brute force
+    if n <= 10:
+        min_distance = float('inf')
+        best_tour = None
+        
+        # Try all permutations
+        for perm in permutations(range(1, n)):
+            tour = [0] + list(perm) + [0]
+            distance = sum(distances[tour[i]][tour[i+1]] for i in range(n))
+            
+            if distance < min_distance:
+                min_distance = distance
+                best_tour = tour
+        
+        return best_tour, min_distance
+    
+    # For larger instances, use nearest neighbor heuristic
+    else:
+        visited = [0]
+        current = 0
+        total_distance = 0
+        
+        while len(visited) < n:
+            nearest = None
+            nearest_dist = float('inf')
+            for i in range(n):
+                if i not in visited and distances[current][i] < nearest_dist:
+                    nearest = i
+                    nearest_dist = distances[current][i]
+            
+            visited.append(nearest)
+            total_distance += nearest_dist
+            current = nearest
+        
+        visited.append(0)
+        total_distance += distances[current][0]
+        
+        return visited, total_distance
 
 
 class LinearProgrammingFull(Scene):
@@ -29,17 +299,46 @@ class LinearProgrammingFull(Scene):
         objective = input_data.get('objective', '3x1 + 2x2')
         constraints = input_data.get('constraints', ['2x1 + x2 <= 8', 'x1 + 2x2 <= 10'])
         
+        # Solve the LP
+        feasible_points, optimal_point, optimal_value, obj_coeffs, parsed_constraints = solve_lp(objective, constraints)
+        
         # Title
         title = Text("Linear Programming Problem", font_size=36)
         title.to_edge(UP)
         self.play(Write(title))
         self.wait(1)
-        self.play(FadeOut(title))
+        
+        # Show objective and constraints
+        obj_text = MathTex(f"\\text{{Maximize: }} {objective.replace('x1', 'x_1').replace('x2', 'x_2')}", font_size=28)
+        obj_text.next_to(title, DOWN)
+        self.play(Write(obj_text))
+        
+        const_text = VGroup(*[
+            MathTex(c.replace('x1', 'x_1').replace('x2', 'x_2'), font_size=24)
+            for c in constraints
+        ]).arrange(DOWN, aligned_edge=LEFT)
+        const_text.next_to(obj_text, DOWN)
+        self.play(Write(const_text))
+        self.wait(2)
+        self.play(FadeOut(obj_text), FadeOut(const_text))
         
         # Axes
+        max_val = max(max(p[0] for p in feasible_points), max(p[1] for p in feasible_points))
+        axis_max = max(10, int(max_val * 1.5) + 2)  # Minimum 10, with better padding
+        
+        # Calculate appropriate step size
+        if axis_max <= 10:
+            step = 1
+        elif axis_max <= 20:
+            step = 2
+        elif axis_max <= 50:
+            step = 5
+        else:
+            step = 10
+        
         axes = Axes(
-            x_range=[0, 10, 1],
-            y_range=[0, 10, 1],
+            x_range=[0, axis_max, step],
+            y_range=[0, axis_max, step],
             x_length=7,
             y_length=7,
             axis_config={"include_tip": True}
@@ -48,72 +347,197 @@ class LinearProgrammingFull(Scene):
         self.play(Create(axes), Write(labels))
         self.wait(1)
         
-        # Constraints
-        c1 = axes.plot(lambda x: 8 - 2*x, x_range=[0, 4], color=BLUE)
-        c2 = axes.plot(lambda x: 5 - 0.5*x, x_range=[0, 10], color=GREEN)
+        # Draw constraints
+        constraint_lines = VGroup()
+        constraint_labels = VGroup()
+        colors = [BLUE, GREEN, RED, PURPLE, ORANGE]
         
-        c1_label = MathTex("2x_1 + x_2 = 8", color=BLUE)
-        c1_label.next_to(axes.c2p(2, 4), UR)
-        c2_label = MathTex("x_1 + 2x_2 = 10", color=GREEN)
-        c2_label.next_to(axes.c2p(4, 3), UL)
+        for i, (coeffs, rhs, ineq) in enumerate(parsed_constraints):
+            color = colors[i % len(colors)]
+            
+            # Create line equation
+            if abs(coeffs[1]) > 1e-10:
+                # Function: y = (rhs - c0*x) / c1
+                def line_func(x, c=coeffs, r=rhs):
+                    y = (r - c[0]*x) / c[1]
+                    return y
+                
+                # Find valid x range where line is visible on axes
+                x_intercept = rhs/coeffs[0] if abs(coeffs[0]) > 1e-10 else axis_max
+                y_intercept = rhs/coeffs[1]
+                
+                # Plot from 0 to where line exits the visible area
+                x_max_plot = min(axis_max, x_intercept + 1)
+                
+                try:
+                    line = axes.plot(lambda x, c=coeffs, r=rhs: (r - c[0]*x) / c[1], 
+                        x_range=[0, x_max_plot], 
+                        color=color,
+                        use_smoothing=False)
+                except:
+                    # If plotting fails, draw a simple line between intercepts
+                    if x_intercept > 0 and y_intercept > 0:
+                        line = Line(
+                            axes.c2p(min(x_intercept, axis_max), 0),
+                            axes.c2p(0, min(y_intercept, axis_max)),
+                            color=color
+                        )
+                    else:
+                        continue
+            else:
+                # Vertical line: x = rhs/coeffs[0]
+                x_val = rhs / coeffs[0] if abs(coeffs[0]) > 1e-10 else 0
+                line = Line(axes.c2p(x_val, 0), axes.c2p(x_val, axis_max), color=color)
+            
+            # Label - create cleaner formatting
+            parts = []
+            if abs(coeffs[0]) > 1e-10:
+                coef_str = "" if abs(coeffs[0] - 1.0) < 1e-10 else f"{int(coeffs[0])}" if coeffs[0] == int(coeffs[0]) else f"{coeffs[0]:.1f}"
+                parts.append(f"{coef_str}x_1")
+            if abs(coeffs[1]) > 1e-10:
+                if parts:  # Add sign
+                    sign = "+" if coeffs[1] > 0 else "-"
+                    coef_val = abs(coeffs[1])
+                    coef_str = "" if abs(coef_val - 1.0) < 1e-10 else f"{int(coef_val)}" if coef_val == int(coef_val) else f"{coef_val:.1f}"
+                    parts.append(f"{sign} {coef_str}x_2")
+                else:
+                    coef_str = "" if abs(coeffs[1] - 1.0) < 1e-10 else f"{int(coeffs[1])}" if coeffs[1] == int(coeffs[1]) else f"{coeffs[1]:.1f}"
+                    parts.append(f"{coef_str}x_2")
+            
+            label_str = " ".join(parts) + f" {ineq} {int(rhs)}" if rhs == int(rhs) else " ".join(parts) + f" {ineq} {rhs:.1f}"
+            label_str = label_str.replace("  ", " ")
+            label = MathTex(label_str, color=color, font_size=20)
+            
+            # Position label intelligently to avoid overlap
+            if abs(coeffs[1]) > 1e-10:
+                # Find a good point on the line within visible area
+                mid_x = min(axis_max * 0.6, x_max_plot * 0.5)
+                mid_y = line_func(mid_x, coeffs, rhs)
+                if mid_y > axis_max:
+                    mid_x = axis_max * 0.3
+                    mid_y = line_func(mid_x, coeffs, rhs)
+                
+                # Vary label position based on line index to reduce overlap
+                if i % 2 == 0:
+                    label.next_to(axes.c2p(mid_x, min(mid_y, axis_max*0.9)), UR, buff=0.2)
+                else:
+                    label.next_to(axes.c2p(mid_x, min(mid_y, axis_max*0.9)), DR, buff=0.2)
+            else:
+                if i % 2 == 0:
+                    label.next_to(axes.c2p(x_val, axis_max/2), RIGHT, buff=0.2)
+                else:
+                    label.next_to(axes.c2p(x_val, axis_max/2), LEFT, buff=0.2)
+            
+            constraint_lines.add(line)
+            constraint_labels.add(label)
         
-        self.play(Create(c1), Create(c2))
-        self.play(Write(c1_label), Write(c2_label))
+        self.play(Create(constraint_lines))
+        self.play(Write(constraint_labels))
         self.wait(1)
         
         # Feasible Region
-        region = Polygon(
-            axes.c2p(0, 0),
-            axes.c2p(4, 0),
-            axes.c2p(2, 4),
-            axes.c2p(0, 5),
-            fill_color=YELLOW,
-            fill_opacity=0.4,
-            stroke_width=0
-        )
-        region_label = Text("Feasible Region", font_size=24, color=YELLOW)
-        region_label.move_to(axes.c2p(1.5, 2.5))
-        
-        self.play(FadeIn(region), Write(region_label))
-        self.wait(1)
+        if len(feasible_points) > 2:
+            # Sort points to form polygon
+            center = np.mean(feasible_points, axis=0)
+            sorted_points = sorted(feasible_points, key=lambda p: np.arctan2(p[1]-center[1], p[0]-center[0]))
+            
+            region = Polygon(
+                *[axes.c2p(x, y) for x, y in sorted_points],
+                fill_color=YELLOW,
+                fill_opacity=0.3,
+                stroke_width=0
+            )
+            region_label = Text("Feasible Region", font_size=24, color=YELLOW)
+            region_label.move_to(axes.c2p(center[0], center[1]))
+            
+            self.play(FadeIn(region), Write(region_label))
+            self.wait(1)
         
         # Corner Points
-        points = [(0, 0), (4, 0), (2, 4), (0, 5)]
-        labels_text = ["O(0,0)", "A(4,0)", "B(2,4)", "C(0,5)"]
-        dots = VGroup(*[Dot(axes.c2p(x, y), color=RED, radius=0.08) for x, y in points])
-        points_labels = VGroup(*[
-            Text(t, font_size=20, color=RED).next_to(axes.c2p(x, y), DR, buff=0.1)
-            for (x, y), t in zip(points, labels_text)
-        ])
+        dots = VGroup(*[Dot(axes.c2p(x, y), color=RED, radius=0.08) for x, y in feasible_points])
         
-        self.play(LaggedStart(*[Create(d) for d in dots], lag_ratio=0.3))
-        self.play(LaggedStart(*[Write(l) for l in points_labels], lag_ratio=0.3))
+        # Smart label positioning to avoid overlap
+        point_labels = VGroup()
+        for x, y in feasible_points:
+            label = Text(f"({x:.1f},{y:.1f})", font_size=14, color=RED)
+            
+            # Position based on location in feasible region
+            if len(feasible_points) > 2:
+                center_x = sum(p[0] for p in feasible_points) / len(feasible_points)
+                center_y = sum(p[1] for p in feasible_points) / len(feasible_points)
+                
+                # Place label away from center
+                if x < center_x and y < center_y:
+                    label.next_to(axes.c2p(x, y), DL, buff=0.15)
+                elif x < center_x and y >= center_y:
+                    label.next_to(axes.c2p(x, y), UL, buff=0.15)
+                elif x >= center_x and y < center_y:
+                    label.next_to(axes.c2p(x, y), DR, buff=0.15)
+                else:
+                    label.next_to(axes.c2p(x, y), UR, buff=0.15)
+            else:
+                label.next_to(axes.c2p(x, y), DR, buff=0.15)
+            
+            point_labels.add(label)
+        
+        self.play(LaggedStart(*[Create(d) for d in dots], lag_ratio=0.2))
+        self.play(LaggedStart(*[Write(l) for l in point_labels], lag_ratio=0.2))
         self.wait(1)
         
         # Sliding Objective Function
         z = ValueTracker(0)
-        obj_line = always_redraw(
-            lambda: axes.plot(
-                lambda x: z.get_value()/2 - 1.5*x,
-                x_range=[0, 5],
-                color=ORANGE,
-                stroke_width=3
+        
+        if abs(obj_coeffs[1]) > 1e-10:
+            obj_line = always_redraw(
+                lambda: axes.plot(
+                    lambda x: (z.get_value() - obj_coeffs[0]*x) / obj_coeffs[1],
+                    x_range=[0, axis_max],
+                    color=ORANGE,
+                    stroke_width=3
+                )
             )
-        )
-        z_label = always_redraw(
-            lambda: MathTex(f"z = {z.get_value():.1f}", color=ORANGE)
-            .scale(0.7)
-            .next_to(axes.c2p(0.5, z.get_value()/2 - 0.75), UP, buff=0.1)
-        )
+            z_label = always_redraw(
+                lambda: MathTex(f"z = {z.get_value():.1f}", color=ORANGE)
+                .scale(0.7)
+                .to_edge(UP)
+            )
+        else:
+            obj_line = always_redraw(
+                lambda: Line(
+                    axes.c2p(z.get_value()/obj_coeffs[0], 0),
+                    axes.c2p(z.get_value()/obj_coeffs[0], axis_max),
+                    color=ORANGE,
+                    stroke_width=3
+                )
+            )
+            z_label = always_redraw(
+                lambda: MathTex(f"z = {z.get_value():.1f}", color=ORANGE)
+                .scale(0.7)
+                .to_edge(UP)
+            )
         
         self.add(obj_line, z_label)
-        self.play(z.animate.set_value(14), run_time=4)
+        self.play(z.animate.set_value(optimal_value), run_time=4)
         self.wait(1)
         
         # Highlight Optimal Solution
-        optimal_dot = Dot(axes.c2p(2, 4), color=YELLOW, radius=0.15)
-        optimal_label = Text("Optimal: B(2,4)\nz = 14", font_size=24, color=YELLOW)
-        optimal_label.next_to(optimal_dot, UR, buff=0.2)
+        optimal_dot = Dot(axes.c2p(optimal_point[0], optimal_point[1]), color=YELLOW, radius=0.12)
+        optimal_label = Text(
+            f"Optimal: ({optimal_point[0]:.1f},{optimal_point[1]:.1f})\nz = {optimal_value:.1f}", 
+            font_size=22, 
+            color=YELLOW
+        )
+        
+        # Position optimal label to avoid overlap with other elements
+        # Try to place it in an empty corner
+        if optimal_point[0] < axis_max/2 and optimal_point[1] < axis_max/2:
+            optimal_label.next_to(optimal_dot, UR, buff=0.3)
+        elif optimal_point[0] < axis_max/2:
+            optimal_label.next_to(optimal_dot, DR, buff=0.3)
+        elif optimal_point[1] < axis_max/2:
+            optimal_label.next_to(optimal_dot, UL, buff=0.3)
+        else:
+            optimal_label.next_to(optimal_dot, DL, buff=0.3)
         
         self.play(Create(optimal_dot), Write(optimal_label))
         self.wait(2)
@@ -125,6 +549,9 @@ class TransportationProblem(Scene):
         supply = input_data.get('supply', [20, 30, 25])
         demand = input_data.get('demand', [15, 25, 35])
         costs = input_data.get('costs', [[8, 6, 10], [9, 12, 13], [14, 9, 16]])
+        
+        # Solve the transportation problem
+        allocations, total_cost = solve_transportation(supply, demand, costs)
         
         # Title
         title = Text("Transportation Problem", font_size=40)
@@ -179,18 +606,12 @@ class TransportationProblem(Scene):
         self.play(Write(cost_labels), run_time=1)
         self.wait(1)
         
-        # Show optimal solution (example - highlight certain paths)
-        optimal_paths = [
-            (0, 0, 15), (0, 1, 5),
-            (1, 1, 20), (1, 2, 10),
-            (2, 2, 25)
-        ]
-        
-        solution_text = Text("Optimal Solution", font_size=30, color=YELLOW)
+        # Show optimal solution
+        solution_text = Text(f"Optimal Solution (Cost: {total_cost})", font_size=28, color=YELLOW)
         solution_text.to_edge(DOWN)
         self.play(Write(solution_text))
         
-        for src, dst, amount in optimal_paths:
+        for src, dst, amount in allocations:
             line = Line(
                 sources[src].get_right(),
                 destinations[dst].get_left(),
@@ -200,6 +621,7 @@ class TransportationProblem(Scene):
             flow_label = Text(str(amount), font_size=20, color=RED)
             flow_label.move_to(line.get_center())
             flow_label.shift(UP * 0.3)
+            flow_label.add_background_rectangle(color=BLACK, opacity=0.8)
             
             self.play(Create(line), Write(flow_label), run_time=0.5)
         
@@ -264,18 +686,32 @@ class TravellingSalesmanProblem(Scene):
         self.play(Create(edges), run_time=2)
         self.wait(1)
         
-        # Show optimal tour (example solution)
-        optimal_tour = [0, 1, 3, 2, 0]  # A -> B -> D -> C -> A
-        tour_edges = VGroup()
+        # Simple greedy solution for demonstration
+        visited = [0]
+        current = 0
         total_distance = 0
         
-        solution_text = Text("Optimal Tour", font_size=30, color=YELLOW)
+        while len(visited) < n_cities:
+            nearest = None
+            nearest_dist = float('inf')
+            for i in range(n_cities):
+                if i not in visited and distances[current][i] < nearest_dist:
+                    nearest = i
+                    nearest_dist = distances[current][i]
+            visited.append(nearest)
+            total_distance += nearest_dist
+            current = nearest
+        
+        visited.append(0)
+        total_distance += distances[current][0]
+        
+        solution_text = Text("Greedy Tour", font_size=30, color=YELLOW)
         solution_text.to_edge(DOWN)
         self.play(Write(solution_text))
         
-        for i in range(len(optimal_tour) - 1):
-            start = optimal_tour[i]
-            end = optimal_tour[i + 1]
+        for i in range(len(visited) - 1):
+            start = visited[i]
+            end = visited[i + 1]
             
             arrow = Arrow(
                 city_nodes[start].get_center(),
@@ -285,9 +721,6 @@ class TravellingSalesmanProblem(Scene):
                 buff=0.4,
                 max_tip_length_to_length_ratio=0.15
             )
-            
-            dist = distances[start][end]
-            total_distance += dist
             
             self.play(Create(arrow), run_time=0.8)
         
